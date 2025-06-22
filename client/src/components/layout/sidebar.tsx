@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
 
 const navigationItems = [
   {
@@ -57,8 +58,17 @@ const adminItems = [
 export function Sidebar() {
   const [location] = useLocation();
   const { user, logout } = useAuth();
+  const { toast } = useToast();
 
   if (!user) return null;
+
+  const handleLogout = () => {
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully.",
+    });
+    logout();
+  };
 
   const hasAccess = (roles: string[]) => roles.includes(user.role);
 
@@ -151,8 +161,9 @@ export function Sidebar() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={logout}
+            onClick={handleLogout}
             className="text-military-300 hover:text-white hover:bg-military-600"
+            title="Logout"
           >
             <LogOut className="w-4 h-4" />
           </Button>

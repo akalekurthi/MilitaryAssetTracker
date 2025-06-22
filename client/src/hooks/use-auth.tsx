@@ -53,6 +53,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     removeToken();
     setUserState(null);
     queryClient.clear();
+    // Force navigation to login page
+    window.location.href = '/login';
   };
 
   return (

@@ -10,6 +10,8 @@ import Dashboard from "@/pages/dashboard";
 import Purchases from "@/pages/purchases";
 import Transfers from "@/pages/transfers";
 import Assignments from "@/pages/assignments";
+import UsersPage from "@/pages/users";
+import AuditLogsPage from "@/pages/audit-logs";
 import { getAuthHeaders } from "@/lib/auth";
 import { useEffect } from "react";
 
@@ -81,6 +83,16 @@ function Router() {
       <Route path="/assignments">
         <ProtectedRoute>
           <Assignments />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/users">
+        <ProtectedRoute>
+          <UsersPage />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/audit-logs">
+        <ProtectedRoute>
+          <AuditLogsPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

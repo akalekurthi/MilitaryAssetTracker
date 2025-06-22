@@ -28,6 +28,7 @@ export interface IStorage {
   // Users
   getUser(id: number): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
+  getUsers(): Promise<User[]>;
   createUser(user: InsertUser): Promise<User>;
   
   // Bases
@@ -89,6 +90,10 @@ export class DatabaseStorage implements IStorage {
   async getUserByEmail(email: string): Promise<User | undefined> {
     const result = await db.select().from(schema.users).where(eq(schema.users.email, email)).limit(1);
     return result[0];
+  }
+
+  async getUsers(): Promise<User[]> {
+    return await db.select().from(schema.users).orderBy(schema.users.createdAt);
   }
 
   async createUser(user: InsertUser): Promise<User> {

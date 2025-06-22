@@ -146,6 +146,18 @@ export function Sidebar() {
         )}
       </nav>
 
+      {/* Logout Button */}
+      <div className="px-4 pb-2">
+        <Button
+          variant="ghost"
+          onClick={handleLogout}
+          className="w-full justify-start text-military-300 hover:text-white hover:bg-military-600"
+        >
+          <LogOut className="w-4 h-4 mr-3" />
+          Logout
+        </Button>
+      </div>
+
       {/* User Profile */}
       <div className="p-4 border-t border-military-600">
         <div className="flex items-center space-x-3">
@@ -158,15 +170,6 @@ export function Sidebar() {
             <p className="font-medium text-sm">{user.name || 'Unknown User'}</p>
             <p className="text-xs text-military-300 capitalize">{user.role}</p>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleLogout}
-            className="text-military-300 hover:text-white hover:bg-military-600"
-            title="Logout"
-          >
-            <LogOut className="w-4 h-4" />
-          </Button>
         </div>
       </div>
     </aside>

@@ -474,8 +474,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         endDate ? new Date(endDate as string) : undefined
       );
 
-      res.json(logs);
+      // Map actionType to action for frontend compatibility
+      const mappedLogs = logs.map(log => ({
+        ...log,
+        action: log.actionType || log.action || 'unknown'
+      }));
+
+      res.json(mappedLogs);
     } catch (error) {
+      console.error("Error fetching logs:", error);
       res.status(500).json({ error: "Failed to fetch logs" });
     }
   });

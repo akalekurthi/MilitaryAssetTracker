@@ -18,6 +18,16 @@ export default function AuditLogsPage() {
 
   const { data: logs, isLoading } = useQuery<Log[]>({
     queryKey: ["/api/logs", actionFilter === "all" ? "" : actionFilter, dateRange],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (actionFilter !== "all") {
+        params.append("actionType", actionFilter);
+      }
+      // Note: dateRange filtering would need to be implemented on the backend
+      const response = await fetch(`/api/logs?${params}`);
+      if (!response.ok) throw new Error('Failed to fetch logs');
+      return response.json();
+    }
   });
 
   const filteredLogs = logs?.filter(log => 
@@ -148,7 +158,7 @@ export default function AuditLogsPage() {
                           </TableCell>
                           <TableCell>
                             <Badge variant={getActionBadgeVariant(log.action)}>
-                              {log.action.toUpperCase()}
+                              {(log.action || 'unknown').toUpperCase()}
                             </Badge>
                           </TableCell>
                           <TableCell>

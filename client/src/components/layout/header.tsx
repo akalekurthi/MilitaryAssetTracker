@@ -56,7 +56,7 @@ export function Header({
                   <SelectValue placeholder="All Bases" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Bases</SelectItem>
+                  <SelectItem value="all">All Bases</SelectItem>
                   <SelectItem value="1">Fort Bragg</SelectItem>
                   <SelectItem value="2">Camp Pendleton</SelectItem>
                   <SelectItem value="3">Norfolk Naval</SelectItem>
@@ -71,7 +71,7 @@ export function Header({
                   <SelectValue placeholder="All Types" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Types</SelectItem>
+                  <SelectItem value="all">All Types</SelectItem>
                   <SelectItem value="vehicles">Vehicles</SelectItem>
                   <SelectItem value="weapons">Weapons</SelectItem>
                   <SelectItem value="ammunition">Ammunition</SelectItem>

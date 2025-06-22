@@ -5,19 +5,23 @@ import { Header } from "@/components/layout/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AssignmentForm } from "@/components/forms/assignment-form";
 import { Plus, Filter, Users } from "lucide-react";
 
 export default function Assignments() {
-  const [selectedBase, setSelectedBase] = useState<string>("");
-  const [selectedAssetType, setSelectedAssetType] = useState<string>("");
+  const [selectedBase, setSelectedBase] = useState<string>("all");
+  const [selectedAssetType, setSelectedAssetType] = useState<string>("all");
   const [selectedDateRange, setSelectedDateRange] = useState<string>("30d");
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   const { data: assignments, isLoading } = useQuery({
-    queryKey: ["/api/assignments", selectedBase, selectedAssetType, selectedDateRange],
+    queryKey: ["/api/assignments", selectedBase === "all" ? "" : selectedBase, selectedAssetType === "all" ? "" : selectedAssetType, selectedDateRange],
   });
 
   const handleNewAssignment = () => {
-    console.log("New assignment");
+    setIsFormOpen(true);
   };
 
   return (
@@ -68,6 +72,44 @@ export default function Assignments() {
                     </div>
                   ))}
                 </div>
+              ) : assignments && assignments.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Asset</TableHead>
+                      <TableHead>Base</TableHead>
+                      <TableHead>Assigned To</TableHead>
+                      <TableHead>Personnel ID</TableHead>
+                      <TableHead>Quantity</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Assignment Date</TableHead>
+                      <TableHead>Created By</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {assignments.map((assignment: any) => (
+                      <TableRow key={assignment.id}>
+                        <TableCell>
+                          {assignment.asset?.description || 'Unknown Asset'}
+                          <div className="text-sm text-gray-500 capitalize">
+                            {assignment.asset?.type}
+                          </div>
+                        </TableCell>
+                        <TableCell>{assignment.base?.name}</TableCell>
+                        <TableCell>{assignment.assignedTo}</TableCell>
+                        <TableCell className="font-mono">{assignment.personnelId || 'N/A'}</TableCell>
+                        <TableCell className="font-mono">{assignment.quantity}</TableCell>
+                        <TableCell>
+                          <Badge variant={assignment.status === 'assigned' ? 'default' : 'destructive'}>
+                            {assignment.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{new Date(assignment.assignedDate).toLocaleDateString()}</TableCell>
+                        <TableCell>{assignment.user?.name}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               ) : (
                 <div className="text-center py-8">
                   <Users className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -81,6 +123,18 @@ export default function Assignments() {
           </Card>
         </div>
       </main>
+
+      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Create New Assignment</DialogTitle>
+          </DialogHeader>
+          <AssignmentForm
+            onSuccess={() => setIsFormOpen(false)}
+            onCancel={() => setIsFormOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

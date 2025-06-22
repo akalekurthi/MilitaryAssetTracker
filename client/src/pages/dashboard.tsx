@@ -10,12 +10,12 @@ import type { DashboardMetrics, Activity } from "@/types";
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBase, setSelectedBase] = useState<string>("");
-  const [selectedAssetType, setSelectedAssetType] = useState<string>("");
+  const [selectedBase, setSelectedBase] = useState<string>("all");
+  const [selectedAssetType, setSelectedAssetType] = useState<string>("all");
   const [selectedDateRange, setSelectedDateRange] = useState<string>("30d");
 
   const { data: metrics, isLoading: metricsLoading } = useQuery<DashboardMetrics>({
-    queryKey: ["/api/dashboard/metrics", selectedBase, selectedDateRange],
+    queryKey: ["/api/dashboard/metrics", selectedBase === "all" ? "" : selectedBase, selectedDateRange],
   });
 
   const { data: activities, isLoading: activitiesLoading } = useQuery<Activity[]>({

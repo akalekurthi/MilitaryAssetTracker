@@ -6,20 +6,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { PurchaseForm } from "@/components/forms/purchase-form";
 import { Plus, Filter } from "lucide-react";
 
 export default function Purchases() {
-  const [selectedBase, setSelectedBase] = useState<string>("");
-  const [selectedAssetType, setSelectedAssetType] = useState<string>("");
+  const [selectedBase, setSelectedBase] = useState<string>("all");
+  const [selectedAssetType, setSelectedAssetType] = useState<string>("all");
   const [selectedDateRange, setSelectedDateRange] = useState<string>("30d");
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   const { data: purchases, isLoading } = useQuery({
-    queryKey: ["/api/purchases", selectedBase, selectedAssetType, selectedDateRange],
+    queryKey: ["/api/purchases", selectedBase === "all" ? "" : selectedBase, selectedAssetType === "all" ? "" : selectedAssetType, selectedDateRange],
   });
 
   const handleAddPurchase = () => {
-    // Navigate to add purchase form or open modal
-    console.log("Add purchase");
+    setIsFormOpen(true);
   };
 
   return (
@@ -70,6 +72,34 @@ export default function Purchases() {
                     </div>
                   ))}
                 </div>
+              ) : purchases && purchases.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Asset</TableHead>
+                      <TableHead>Base</TableHead>
+                      <TableHead>Quantity</TableHead>
+                      <TableHead>Purchase Date</TableHead>
+                      <TableHead>Created By</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {purchases.map((purchase: any) => (
+                      <TableRow key={purchase.id}>
+                        <TableCell>
+                          {purchase.asset?.description || 'Unknown Asset'}
+                          <div className="text-sm text-gray-500 capitalize">
+                            {purchase.asset?.type}
+                          </div>
+                        </TableCell>
+                        <TableCell>{purchase.base?.name}</TableCell>
+                        <TableCell className="font-mono">{purchase.quantity}</TableCell>
+                        <TableCell>{new Date(purchase.purchaseDate).toLocaleDateString()}</TableCell>
+                        <TableCell>{purchase.user?.name}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               ) : (
                 <div className="text-center py-8">
                   <p className="text-gray-500">No purchases found</p>
@@ -82,6 +112,18 @@ export default function Purchases() {
           </Card>
         </div>
       </main>
+
+      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Add New Purchase</DialogTitle>
+          </DialogHeader>
+          <PurchaseForm
+            onSuccess={() => setIsFormOpen(false)}
+            onCancel={() => setIsFormOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

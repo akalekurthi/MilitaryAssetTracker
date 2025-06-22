@@ -5,19 +5,23 @@ import { Header } from "@/components/layout/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { TransferForm } from "@/components/forms/transfer-form";
 import { Plus, Filter, ArrowRightLeft } from "lucide-react";
 
 export default function Transfers() {
-  const [selectedBase, setSelectedBase] = useState<string>("");
-  const [selectedAssetType, setSelectedAssetType] = useState<string>("");
+  const [selectedBase, setSelectedBase] = useState<string>("all");
+  const [selectedAssetType, setSelectedAssetType] = useState<string>("all");
   const [selectedDateRange, setSelectedDateRange] = useState<string>("30d");
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   const { data: transfers, isLoading } = useQuery({
-    queryKey: ["/api/transfers", selectedBase, selectedAssetType, selectedDateRange],
+    queryKey: ["/api/transfers", selectedBase === "all" ? "" : selectedBase, selectedAssetType === "all" ? "" : selectedAssetType, selectedDateRange],
   });
 
   const handleNewTransfer = () => {
-    console.log("New transfer");
+    setIsFormOpen(true);
   };
 
   return (
@@ -68,6 +72,42 @@ export default function Transfers() {
                     </div>
                   ))}
                 </div>
+              ) : transfers && transfers.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Asset</TableHead>
+                      <TableHead>From Base</TableHead>
+                      <TableHead>To Base</TableHead>
+                      <TableHead>Quantity</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Transfer Date</TableHead>
+                      <TableHead>Initiated By</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {transfers.map((transfer: any) => (
+                      <TableRow key={transfer.id}>
+                        <TableCell>
+                          {transfer.asset?.description || 'Unknown Asset'}
+                          <div className="text-sm text-gray-500 capitalize">
+                            {transfer.asset?.type}
+                          </div>
+                        </TableCell>
+                        <TableCell>{transfer.fromBase?.name}</TableCell>
+                        <TableCell>{transfer.toBase?.name}</TableCell>
+                        <TableCell className="font-mono">{transfer.quantity}</TableCell>
+                        <TableCell>
+                          <Badge variant={transfer.status === 'completed' ? 'default' : 'secondary'}>
+                            {transfer.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{new Date(transfer.transferDate).toLocaleDateString()}</TableCell>
+                        <TableCell>{transfer.user?.name}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               ) : (
                 <div className="text-center py-8">
                   <ArrowRightLeft className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -81,6 +121,18 @@ export default function Transfers() {
           </Card>
         </div>
       </main>
+
+      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Create New Transfer</DialogTitle>
+          </DialogHeader>
+          <TransferForm
+            onSuccess={() => setIsFormOpen(false)}
+            onCancel={() => setIsFormOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

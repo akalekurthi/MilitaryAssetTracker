@@ -141,11 +141,11 @@ export function Sidebar() {
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-military-500 rounded-full flex items-center justify-center">
             <span className="text-sm font-medium">
-              {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+              {user.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
             </span>
           </div>
           <div className="flex-1">
-            <p className="font-medium text-sm">{user.name}</p>
+            <p className="font-medium text-sm">{user.name || 'Unknown User'}</p>
             <p className="text-xs text-military-300 capitalize">{user.role}</p>
           </div>
           <Button

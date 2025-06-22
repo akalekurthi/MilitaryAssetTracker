@@ -158,12 +158,12 @@ export default function AuditLogsPage() {
                             </div>
                           </TableCell>
                           <TableCell className="max-w-md">
-                            <p className="truncate" title={log.details || ''}>
-                              {log.details || 'No additional details'}
+                            <p className="truncate" title={log.details || log.actionType || ''}>
+                              {log.details || log.actionType || 'No additional details'}
                             </p>
                           </TableCell>
                           <TableCell className="font-mono text-sm">
-                            {log.ipAddress || 'N/A'}
+                            {log.ipAddress || 'localhost'}
                           </TableCell>
                         </TableRow>
                       ))}

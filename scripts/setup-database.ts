@@ -167,6 +167,60 @@ async function setupDatabase() {
     }
     await db.insert(schema.assignments).values(assignments);
 
+    // Create audit logs
+    console.log("Creating audit logs...");
+    const auditLogs = [
+      {
+        userId: users[0].id, // Admin
+        action: "login",
+        actionType: "authentication",
+        details: "Admin user logged in to system",
+        ipAddress: "192.168.1.100",
+        timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+      },
+      {
+        userId: users[1].id, // Commander
+        action: "create",
+        actionType: "purchase",
+        details: "Created purchase order for M4A1 Carbines - Quantity: 25",
+        ipAddress: "192.168.1.101",
+        timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+      },
+      {
+        userId: users[2].id, // Logistics
+        action: "create",
+        actionType: "transfer",
+        details: "Initiated transfer of HUMVEE M1165 from Fort Bragg to Camp Pendleton",
+        ipAddress: "192.168.1.102",
+        timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+      },
+      {
+        userId: users[0].id, // Admin
+        action: "update",
+        actionType: "assignment",
+        details: "Updated assignment status for personnel OFF-2024-001",
+        ipAddress: "192.168.1.100",
+        timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
+      },
+      {
+        userId: users[1].id, // Commander
+        action: "create",
+        actionType: "assignment",
+        details: "Assigned Night Vision Goggles to Rifle Squad Alpha",
+        ipAddress: "192.168.1.101",
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+      },
+      {
+        userId: users[2].id, // Logistics
+        action: "update",
+        actionType: "transfer",
+        details: "Completed transfer of medical supplies to Norfolk Naval Base",
+        ipAddress: "192.168.1.102",
+        timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
+      },
+    ];
+    await db.insert(schema.logs).values(auditLogs);
+
     console.log("Database setup completed successfully!");
     console.log("\nLogin credentials:");
     console.log("Admin: admin@military.gov / admin123");

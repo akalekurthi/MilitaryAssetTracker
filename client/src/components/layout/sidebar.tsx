@@ -73,16 +73,16 @@ export function Sidebar() {
   const hasAccess = (roles: string[]) => roles.includes(user.role);
 
   return (
-    <aside className="bg-military-700 text-white w-64 min-h-screen flex flex-col">
+    <aside className="bg-slate-900 text-white w-64 min-h-screen flex flex-col border-r border-slate-700">
       {/* Header */}
-      <div className="p-6 border-b border-military-600">
+      <div className="p-6 border-b border-slate-700">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-bronze-400 rounded-lg flex items-center justify-center">
-            <Shield className="w-6 h-6 text-military-800" />
+          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <Shield className="w-6 h-6 text-white" />
           </div>
           <div>
             <h1 className="font-bold text-lg">MAMS</h1>
-            <p className="text-sm text-military-200">Asset Management</p>
+            <p className="text-sm text-slate-300">Asset Management</p>
           </div>
         </div>
       </div>
@@ -101,8 +101,8 @@ export function Sidebar() {
                 <div
                   className={`flex items-center px-4 py-3 rounded-lg font-medium transition-colors cursor-pointer ${
                     isActive
-                      ? "bg-military-600 text-white"
-                      : "text-military-200 hover:bg-military-600 hover:text-white"
+                      ? "bg-slate-700 text-white"
+                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
                   }`}
                 >
                   <Icon className="w-5 h-5 mr-3" />
@@ -151,7 +151,7 @@ export function Sidebar() {
         <Button
           variant="ghost"
           onClick={handleLogout}
-          className="w-full justify-start text-military-300 hover:text-white hover:bg-military-600"
+          className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-700"
         >
           <LogOut className="w-4 h-4 mr-3" />
           Logout
@@ -159,16 +159,16 @@ export function Sidebar() {
       </div>
 
       {/* User Profile */}
-      <div className="p-4 border-t border-military-600">
+      <div className="p-4 border-t border-slate-700">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-military-500 rounded-full flex items-center justify-center">
-            <span className="text-sm font-medium">
+          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+            <span className="text-sm font-medium text-white">
               {user.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
             </span>
           </div>
           <div className="flex-1">
-            <p className="font-medium text-sm">{user.name || 'Unknown User'}</p>
-            <p className="text-xs text-military-300 capitalize">{user.role}</p>
+            <p className="font-medium text-sm text-white">{user.name || 'Unknown User'}</p>
+            <p className="text-xs text-slate-300 capitalize">{user.role}</p>
           </div>
         </div>
       </div>

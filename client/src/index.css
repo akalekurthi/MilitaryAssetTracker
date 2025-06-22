@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+
+  /* Military theme colors */
+  --military-50: hsl(144, 57%, 96%);
+  --military-100: hsl(144, 56%, 89%);
+  --military-200: hsl(145, 53%, 79%);
+  --military-300: hsl(146, 47%, 66%);
+  --military-400: hsl(147, 41%, 53%);
+  --military-500: hsl(148, 35%, 43%);
+  --military-600: hsl(148, 45%, 30%);
+  --military-700: hsl(149, 59%, 26%);
+  --military-800: hsl(149, 66%, 15%);
+  --military-900: hsl(151, 73%, 6%);
+
+  /* Bronze colors */
+  --bronze-400: hsl(31, 51%, 66%);
+  --bronze-500: hsl(31, 52%, 60%);
+  --bronze-600: hsl(31, 55%, 52%);
+
+  /* Sidebar colors */
+  --sidebar-background: var(--military-700);
+  --sidebar-foreground: hsl(0, 0%, 100%);
+  --sidebar-primary: var(--military-600);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: var(--military-600);
+  --sidebar-accent-foreground: hsl(0, 0%, 100%);
+  --sidebar-border: var(--military-600);
+  --sidebar-ring: var(--military-500);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .military-gradient {
+    background: linear-gradient(135deg, hsl(var(--military-700)), hsl(var(--military-800)));
+  }
+  
+  .text-military-50 { color: hsl(var(--military-50)); }
+  .text-military-100 { color: hsl(var(--military-100)); }
+  .text-military-200 { color: hsl(var(--military-200)); }
+  .text-military-300 { color: hsl(var(--military-300)); }
+  .text-military-400 { color: hsl(var(--military-400)); }
+  .text-military-500 { color: hsl(var(--military-500)); }
+  .text-military-600 { color: hsl(var(--military-600)); }
+  .text-military-700 { color: hsl(var(--military-700)); }
+  .text-military-800 { color: hsl(var(--military-800)); }
+  .text-military-900 { color: hsl(var(--military-900)); }
+
+  .bg-military-50 { background-color: hsl(var(--military-50)); }
+  .bg-military-100 { background-color: hsl(var(--military-100)); }
+  .bg-military-200 { background-color: hsl(var(--military-200)); }
+  .bg-military-300 { background-color: hsl(var(--military-300)); }
+  .bg-military-400 { background-color: hsl(var(--military-400)); }
+  .bg-military-500 { background-color: hsl(var(--military-500)); }
+  .bg-military-600 { background-color: hsl(var(--military-600)); }
+  .bg-military-700 { background-color: hsl(var(--military-700)); }
+  .bg-military-800 { background-color: hsl(var(--military-800)); }
+  .bg-military-900 { background-color: hsl(var(--military-900)); }
+
+  .border-military-600 { border-color: hsl(var(--military-600)); }
+
+  .text-bronze-400 { color: hsl(var(--bronze-400)); }
+  .text-bronze-500 { color: hsl(var(--bronze-500)); }
+  .text-bronze-600 { color: hsl(var(--bronze-600)); }
+
+  .bg-bronze-400 { background-color: hsl(var(--bronze-400)); }
+  .bg-bronze-500 { background-color: hsl(var(--bronze-500)); }
+  .bg-bronze-600 { background-color: hsl(var(--bronze-600)); }
+}

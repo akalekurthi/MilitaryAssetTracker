@@ -1,0 +1,16 @@
+{
+  "name": "military-asset-tracker-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "build": "npm install",
+    "build:client": "cd ../client && npm install && npm run build",
+    "dev": "tsx watch index.ts"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "typescript": "^5.0.0",
+    "tsx": "^4.7.0"
+  }
+} 

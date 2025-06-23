@@ -50,7 +50,7 @@ A full-stack web application for managing military assets, assignments, purchase
 ## Deployment (Render)
 
 ### Backend
-- Create a new Web Service on [Render]
+- Create a new Web Service on [Render](https://dashboard.render.com/)
 - Root Directory: `server/`
 - Build Command: `npm install`
 - Start Command: `node index.js` or `npx tsx index.ts`

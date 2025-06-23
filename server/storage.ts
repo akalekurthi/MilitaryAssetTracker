@@ -412,4 +412,32 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+export class MockStorage implements IStorage {
+  async getUser() { return undefined; }
+  async getUserByEmail() { return undefined; }
+  async getUsers() { return []; }
+  async createUser(user) { return { id: 1, name: user.name, email: user.email, password: user.password, role: user.role, createdAt: new Date(), baseId: user.baseId ?? null }; }
+  async getBases() { return []; }
+  async getBase() { return undefined; }
+  async createBase(base) { return { id: 1, name: base.name, location: base.location, createdAt: new Date() }; }
+  async getAssets() { return []; }
+  async getAsset() { return undefined; }
+  async createAsset(asset) { return { id: 1, type: asset.type, description: asset.description, createdAt: new Date() }; }
+  async getStocks() { return []; }
+  async getStockByBaseAndAsset() { return undefined; }
+  async updateStock(stockId, updates) { return { id: stockId, baseId: 1, assetId: 1, openingBalance: 0, closingBalance: 0, assigned: 0, expended: 0, updatedAt: new Date(), ...updates }; }
+  async getPurchases() { return []; }
+  async createPurchase(purchase) { return { id: 1, baseId: purchase.baseId, assetId: purchase.assetId, quantity: purchase.quantity, purchaseDate: purchase.purchaseDate, createdBy: purchase.createdBy, createdAt: new Date() }; }
+  async getTransfers() { return []; }
+  async createTransfer(transfer) { return { id: 1, assetId: transfer.assetId, quantity: transfer.quantity, fromBaseId: transfer.fromBaseId, toBaseId: transfer.toBaseId, transferDate: transfer.transferDate, initiatedBy: transfer.initiatedBy, status: transfer.status ?? "pending", createdAt: new Date() }; }
+  async updateTransferStatus(transferId, status) { return { id: transferId, assetId: 1, quantity: 0, fromBaseId: 1, toBaseId: 1, transferDate: new Date(), initiatedBy: 1, status: status as any, createdAt: new Date() }; }
+  async getAssignments() { return []; }
+  async createAssignment(assignment) { return { id: 1, baseId: assignment.baseId, assetId: assignment.assetId, quantity: assignment.quantity, createdBy: assignment.createdBy, status: assignment.status ?? "assigned", assignedTo: assignment.assignedTo, personnelId: assignment.personnelId ?? null, assignedDate: assignment.assignedDate, reason: assignment.reason ?? null, createdAt: new Date() }; }
+  async updateAssignmentStatus(assignmentId, status, reason) { return { id: assignmentId, baseId: 1, assetId: 1, quantity: 0, createdBy: 1, status: status as any, assignedTo: "", personnelId: null, assignedDate: new Date(), reason: reason ?? null, createdAt: new Date() }; }
+  async getDashboardMetrics() { return { openingBalance: 0, closingBalance: 0, netMovement: 0, assignedAssets: 0, breakdown: { purchases: 0, transfersIn: 0, transfersOut: 0 } }; }
+  async createLog(log) { return { id: 1, userId: log.userId, actionType: log.actionType, resourceId: log.resourceId ?? null, oldData: log.oldData ?? null, newData: log.newData ?? null, timestamp: new Date() }; }
+  async getLogs() { return []; }
+  async getRecentActivity() { return []; }
+}
+
+export const storage = process.env.DATABASE_URL ? new DatabaseStorage() : new MockStorage();

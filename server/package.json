@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start": "tsx index.ts",
     "build": "npm install",
-    "build:client": "cd ../client && npm install && npm run build",
+    "build:client": "cd ../client && npm install && npm run build && mkdir -p ../server/public && cp -r ../dist/public/* ../server/public/",
     "dev": "tsx watch index.ts"
   },
   "dependencies": {
